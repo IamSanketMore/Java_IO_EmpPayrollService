@@ -1,52 +1,22 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.IntStream;
+import java.util.Arrays;
 
-public class EmployeePayrollServiceTest
+public class EmployeePayRollServiceTest
 {
-    private static final String HOME = System.getProperty("user.home");
-    private static final String PLAY_WITH_NIO = "TempPlayGround";
-
     @Test
-    void givenPathWhenCheckedThenConfirm() throws IOException
+    void given3EmpWhenWrittenToFilesShouldMatchEmpEntries()
     {
-        Path homePath = Paths.get(HOME);
-        Assertions.assertTrue(Files.exists(homePath));
-
-        Path playPath = Paths.get(HOME + "/"+PLAY_WITH_NIO);
-        if (Files.exists(playPath))
-            FileUtils.deleteFiles(playPath.toFile());
-        Assertions.assertTrue(Files.notExists(playPath));
-
-        Files.createDirectories(playPath);
-        Assertions.assertTrue(Files.exists(playPath));
-
-        IntStream.range(1,10).forEach(fileNumber ->
-        {
-            Path tempFile = Paths.get(playPath +"/temp" +fileNumber);
-            Assertions.assertTrue(Files.notExists(tempFile));
-            try
-            {
-                Files.createFile(tempFile);
-            }
-            catch(IOException e){System.out.println("Exception"+e);}
-            Assertions.assertTrue(Files.exists(tempFile));
-        });
-        Files.list(playPath).filter(Files::isRegularFile).forEach(System.out::println);
-        Files.newDirectoryStream(playPath).forEach(System.out::println);
-        Files.newDirectoryStream(playPath,path ->path.toFile().isFile() &&path.toString().startsWith("temp"));
-
-    }
-    @Test
-    void givenADirectoryWhenWatchListsAllActivities() throws IOException{
-        Path dir = Paths.get(HOME+ "/"+PLAY_WITH_NIO);
-        Files.list(dir).filter(Files::isRegularFile).forEach(System.out::println);
-        new Java8WatchServiceExample(dir).processEvents();
+        EmployeePayrollData[] arrayOfEmp= {
+                new EmployeePayrollData(1,"Sanket",1235),
+                new EmployeePayrollData(2,"Bill",1235),
+                new EmployeePayrollData(3,"Mark",1235),
+        };
+        EmployeePayrollService employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmp));
+        employeePayrollService.empWriteData(EmployeePayrollService.IOService.FILE_IO);
+        employeePayrollService.printData(EmployeePayrollService.IOService.FILE_IO);
+        long result = employeePayrollService.countEntries(EmployeePayrollService.IOService.FILE_IO);
+        Assertions.assertEquals(3,result);
     }
 }
