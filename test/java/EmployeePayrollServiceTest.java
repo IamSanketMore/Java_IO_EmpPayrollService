@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,8 +10,8 @@ import java.util.stream.IntStream;
 
 public class EmployeePayrollServiceTest
 {
-    private static String HOME = System.getProperty("user.home");
-    private static String PLAY_WITH_NIO = "TempPlayGround";
+    private static final String HOME = System.getProperty("user.home");
+    private static final String PLAY_WITH_NIO = "TempPlayGround";
 
     @Test
     void givenPathWhenCheckedThenConfirm() throws IOException
@@ -34,12 +35,18 @@ public class EmployeePayrollServiceTest
             {
                 Files.createFile(tempFile);
             }
-            catch(IOException e){}
+            catch(IOException e){System.out.println("Exception"+e);}
             Assertions.assertTrue(Files.exists(tempFile));
         });
         Files.list(playPath).filter(Files::isRegularFile).forEach(System.out::println);
         Files.newDirectoryStream(playPath).forEach(System.out::println);
-        Files.newDirectoryStream(playPath,path ->path.toFile().isFile() &&path.toString().startsWith("temp"))
-                .forEach(System.out::println);
+        Files.newDirectoryStream(playPath,path ->path.toFile().isFile() &&path.toString().startsWith("temp"));
+
+    }
+    @Test
+    void givenADirectoryWhenWatchListsAllActivities() throws IOException{
+        Path dir = Paths.get(HOME+ "/"+PLAY_WITH_NIO);
+        Files.list(dir).filter(Files::isRegularFile).forEach(System.out::println);
+        new Java8WatchServiceExample(dir).processEvents();
     }
 }
