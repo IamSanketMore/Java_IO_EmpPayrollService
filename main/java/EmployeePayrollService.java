@@ -37,6 +37,8 @@ public class EmployeePayrollService
     {
         if(ioService.equals(IOService.FILE_IO))
             new EmployeePayrollFileIOService().printData();
+        else
+            System.out.println("Chose File_IO");
     }
     public long countEntries(IOService ioService)
     {
@@ -49,7 +51,7 @@ public class EmployeePayrollService
     {
         ArrayList<EmployeePayrollData> employeePayrollList = new ArrayList<>();
         EmployeePayrollService employeePayrollService = new EmployeePayrollService(employeePayrollList);
-        Scanner consoleInputReader = new Scanner(System.in);
+        //Scanner consoleInputReader = new Scanner(System.in);
         employeePayrollService.empWriteData(IOService.FILE_IO);
 
     }
