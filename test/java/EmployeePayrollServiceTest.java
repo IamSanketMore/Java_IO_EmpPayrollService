@@ -17,6 +17,7 @@ public class EmployeePayRollServiceTest
         employeePayrollService.empWriteData(EmployeePayrollService.IOService.FILE_IO);
         employeePayrollService.printData(EmployeePayrollService.IOService.FILE_IO);
         long result = employeePayrollService.countEntries(EmployeePayrollService.IOService.FILE_IO);
+        System.out.println("Total Employee Entries :- "+result);
         Assertions.assertEquals(3,result);
     }
 }
