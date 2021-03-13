@@ -1,22 +1,22 @@
 public class EmployeePayrollData
 {
-    public int id;
-    public String name;
-    public double salary;
+    public int employeeID;
+    public String employeeName;
+    public double employeeSalary;
 
-    public EmployeePayrollData(int id, String name, double salary)
+    public EmployeePayrollData(int employeeID, String employeeName, double employeeSalary)
     {
-        this.id = id;
-        this.name = name;
-        this.salary = salary;
+        this.employeeID = employeeID;
+        this.employeeName = employeeName;
+        this.employeeSalary = employeeSalary;
     }
 
     @Override
     public String toString() {
         return "EmployeePayrollData{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", salary=" + salary +
+                "employeeID=" + employeeID +
+                ", employeeName='" + employeeName + '\'' +
+                ", employeeSalary=" + employeeSalary +
                 '}';
     }
 }
