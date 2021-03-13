@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class EmployeePayrollService
 {
-    public enum IOService { CONSOLE_TO,FILE_IO,DB_IO,REST_IO }
+    public enum IOService { CONSOLE_IO,FILE_IO}
     private final List<EmployeePayrollData> employeePayrollList;
 
     public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList)
@@ -12,23 +12,26 @@ public class EmployeePayrollService
         this.employeePayrollList = employeePayrollList;
     }
 
+    public void readData(IOService ioService){
+        if (ioService.equals(IOService.CONSOLE_IO)) {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Enter Employee Name");
+            String empName = scan.next();
+            System.out.println("Enter Employee ID");
+            int empID = scan.nextInt();
+            System.out.println("Enter Employee Salary");
+            int empSalary = scan.nextInt();
 
-    private void readEmployeePayrollData(Scanner consoleInputReader)
-    {
-        System.out.println("Enter Employee ID:- ");
-        int empID = consoleInputReader.nextInt();
-
-        System.out.println("Enter Employee Name:- ");
-        String empName = consoleInputReader.next();
-
-        System.out.println("Enter Employee salary");
-        double empSalary = consoleInputReader.nextDouble();
-        EmployeePayrollData adder = new EmployeePayrollData(empID,empName,empSalary);
-        employeePayrollList.add(adder);
+            EmployeePayrollData adder = new EmployeePayrollData( empID,empName, empSalary);
+            employeePayrollList.add(adder);
+        }
+        else if (ioService.equals(IOService.FILE_IO)){
+            new EmployeePayrollFileIOService().readData();
+        }
     }
     public void empWriteData(IOService ioService)
     {
-        if (ioService.equals(IOService.CONSOLE_TO))
+        if (ioService.equals(IOService.CONSOLE_IO))
             System.out.println("OutPut\n"+employeePayrollList);
         else if (ioService.equals(IOService.FILE_IO))
             new EmployeePayrollFileIOService().writeData(employeePayrollList);
@@ -51,7 +54,8 @@ public class EmployeePayrollService
     {
         ArrayList<EmployeePayrollData> employeePayrollList = new ArrayList<>();
         EmployeePayrollService employeePayrollService = new EmployeePayrollService(employeePayrollList);
-        //Scanner consoleInputReader = new Scanner(System.in);
+
+        employeePayrollService.readData(IOService.FILE_IO);
         employeePayrollService.empWriteData(IOService.FILE_IO);
 
     }
